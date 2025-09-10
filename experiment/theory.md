@@ -1,10 +1,9 @@
-## Theory
-
 ### Introduction to Branch Prediction
 
 In modern pipelined processors, branch instructions pose a significant challenge to maintaining high instruction throughput. When a branch instruction is encountered, the processor must decide which instruction to fetch next before the branch condition is resolved. **Branch Prediction** is a critical technique that attempts to guess the outcome of branch instructions before they are actually executed, enabling the processor to continue fetching and executing instructions speculatively.
 
 The impact of branch prediction on performance is substantial:
+
 - Modern processors can have pipelines with 10-20+ stages
 - Branch mispredictions can cause pipeline flushes, wasting 10-20+ cycles
 - Branches occur frequently in programs (every 4-7 instructions on average)
@@ -15,11 +14,13 @@ The impact of branch prediction on performance is substantial:
 #### Simple Predictors
 
 1. **Static Prediction**
+
    - Always predict taken or not-taken
    - Compiler hints can improve accuracy
    - Limited effectiveness (~60-70% accuracy)
 
 2. **1-bit Predictor**
+
    - Remember the last outcome of each branch
    - Suffer from ping-pong effect in loops
    - Accuracy limited by simple state representation
@@ -44,6 +45,7 @@ The impact of branch prediction on performance is substantial:
 A correlating predictor consists of two main components:
 
 1. **Global History Register (GHR)**
+
    - Tracks the outcomes of the most recently executed branches
    - Typically 4-16 bits wide
    - Shifted left on each branch, with new outcome inserted at LSB
@@ -78,7 +80,7 @@ The 2-bit saturating counters used in the PHT have four states:
 
 - **00 (Strongly Not-Taken)**: Predicts not-taken, requires two consecutive taken branches to change prediction
 - **01 (Weakly Not-Taken)**: Predicts not-taken, one taken branch changes to weakly taken
-- **10 (Weakly Taken)**: Predicts taken, one not-taken branch changes to weakly not-taken  
+- **10 (Weakly Taken)**: Predicts taken, one not-taken branch changes to weakly not-taken
 - **11 (Strongly Taken)**: Predicts taken, requires two consecutive not-taken branches to change prediction
 
 This hysteresis prevents prediction oscillation in the presence of occasional mispredictions.
@@ -88,16 +90,19 @@ This hysteresis prevents prediction oscillation in the presence of occasional mi
 #### History Length Selection
 
 **Short History (1-4 bits)**:
+
 - Advantages: Small PHT, fast access, low cost
 - Disadvantages: Limited pattern recognition, higher aliasing
 
 **Long History (8-16 bits)**:
+
 - Advantages: Complex pattern recognition, lower aliasing
 - Disadvantages: Large PHT, slower access, higher cost
 
 #### Aliasing Effects
 
 **Aliasing** occurs when different branch patterns map to the same PHT entry, causing interference:
+
 - **Constructive Aliasing**: Different patterns with similar behavior share entries efficiently
 - **Destructive Aliasing**: Conflicting patterns reduce prediction accuracy
 - **Mitigation**: Larger PHT, better hash functions, or tagged entries
@@ -107,17 +112,19 @@ This hysteresis prevents prediction oscillation in the presence of occasional mi
 #### Accuracy Metrics
 
 - **Prediction Accuracy**: Percentage of correct predictions
-- **Misprediction Rate**: Percentage of incorrect predictions  
+- **Misprediction Rate**: Percentage of incorrect predictions
 - **MPKI**: Mispredictions per 1000 instructions
 
 #### Factors Affecting Performance
 
 1. **Program Characteristics**
+
    - Branch frequency and distribution
    - Control flow complexity
    - Loop structures and nesting
 
 2. **Predictor Configuration**
+
    - History register length
    - PHT size and organization
    - Counter initialization
@@ -138,6 +145,7 @@ This hysteresis prevents prediction oscillation in the presence of occasional mi
 #### Gshare Predictor
 
 An efficient implementation that XORs the program counter with global history:
+
 - **Index = PC ⊕ GHR**
 - Provides better distribution and reduces aliasing
 - Widely used in practice
@@ -145,6 +153,7 @@ An efficient implementation that XORs the program counter with global history:
 #### Tournament Predictors
 
 Combine multiple prediction mechanisms:
+
 - Use a meta-predictor to choose between different predictors
 - Adapt to different program phases
 - Examples: Alpha 21264, Intel P6 microarchitecture
@@ -170,6 +179,7 @@ Combine multiple prediction mechanisms:
 #### Loop Prediction
 
 Consider a simple counting loop:
+
 ```assembly
 MOV R1, 0
 MOV R2, 100
@@ -184,6 +194,7 @@ A correlating predictor can learn this pattern and predict accurately even for t
 #### Conditional Patterns
 
 Complex conditional structures benefit from correlation:
+
 ```assembly
 if (a > 0) {        ; Branch B1
   if (b > 0) {      ; Branch B2

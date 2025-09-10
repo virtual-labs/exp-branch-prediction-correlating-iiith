@@ -1,5 +1,3 @@
-### Aim of the experiment
-
 To understand and simulate correlating branch prediction techniques used in modern processors. This experiment aims to:
 
 1. **Demonstrate Branch Prediction**: Understand how correlating branch predictors improve instruction pipeline efficiency by predicting branch outcomes using global history patterns.
