@@ -113,6 +113,18 @@
   align-items: center;
 }
 
+.field.is-horizontal .field-label {
+  margin-right: 1.25rem;
+}
+
+.select select {
+  padding: 0.5em 1.5em 0.5em 0.75em;
+  min-width: 60px;
+  height: auto;
+  line-height: normal;
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   .field.is-horizontal {
     flex-direction: column;
