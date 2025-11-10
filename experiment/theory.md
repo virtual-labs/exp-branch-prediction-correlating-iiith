@@ -180,14 +180,14 @@ Combine multiple prediction mechanisms:
 
 Consider a simple counting loop:
 
-```assembly
+<pre>
 MOV R1, 0
 MOV R2, 100
 LOOP:
   // loop body
   ADD R1, R1, 1
   BNE R1, R2, LOOP  ; Branch taken 99 times, not-taken once
-```
+</pre>
 
 A correlating predictor can learn this pattern and predict accurately even for the final iteration.
 
@@ -195,13 +195,13 @@ A correlating predictor can learn this pattern and predict accurately even for t
 
 Complex conditional structures benefit from correlation:
 
-```assembly
+<pre>
 if (a > 0) {        ; Branch B1
   if (b > 0) {      ; Branch B2
     // code
   }
 }
-```
+</pre>
 
 The outcome of B2 is correlated with B1 - if B1 is not-taken, B2 is never executed.
 
