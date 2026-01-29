@@ -2,6 +2,41 @@
 // Merged from sim/simulation.js and React logic from Experiment2.jsx
 // Provides interactive simulation for correlating branch predictor
 
+// Supported instructions
+const SUPPORTED_INSTRUCTIONS = ['MOV', 'ADD', 'SUB', 'AND', 'BEQ', 'BNE', 'NOP'];
+
+// Validate instructions before execution
+function validateInstructions(code) {
+  const lines = code
+    .split(/\n+/)
+    .map(l => l.trim())
+    .filter(Boolean);
+
+  const unsupportedInstructions = [];
+
+  lines.forEach((line, lineNum) => {
+    // Remove label prefix if present
+    let instr = line;
+    const labelMatch = line.match(/^(\w+):/);
+    if (labelMatch) {
+      const rest = line.replace(/^(\w+):/, '').trim();
+      if (!rest) return; // Just a label, skip
+      instr = rest;
+    }
+
+    const op = instr.split(/[ ,]+/)[0].toUpperCase();
+    if (op && !SUPPORTED_INSTRUCTIONS.includes(op)) {
+      unsupportedInstructions.push({
+        line: lineNum + 1,
+        instruction: op,
+        fullLine: line
+      });
+    }
+  });
+
+  return unsupportedInstructions;
+}
+
 // --- Branch Trace Generation ---
 function generateBranchTrace(code) {
   // Parses assembly, simulates execution, and generates branch traces
@@ -224,9 +259,19 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Please enter assembly code first.');
       return;
     }
-    
+
+    // Validate instructions before execution
+    const unsupported = validateInstructions(code);
+    if (unsupported.length > 0) {
+      const errorList = unsupported
+        .map(u => `Line ${u.line}: "${u.instruction}" - "${u.fullLine}"`)
+        .join('\n');
+      alert(`Unsupported instruction(s) found:\n\n${errorList}\n\nSupported instructions: ${SUPPORTED_INSTRUCTIONS.join(', ')}`);
+      return;
+    }
+
     generateBtn.classList.add('is-loading');
-    
+
     setTimeout(() => {
       try {
         const { trace, coloredProgramHTML, coloredTraceHTML } = generateBranchTrace(code);
