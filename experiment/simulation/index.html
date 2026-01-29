@@ -1,13 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Correlating Branch Prediction Simulation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-		<!-- Your code goes here-->
+  <section class="section">
+    <div class="container">
+      <!-- <h1 class="title has-text-primary">Correlating Branch Prediction Experiment</h1> -->
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+      <div class="box">
+        <h2 class="subtitle">Procedure</h2>
+        <ol class="instructions-list">
+            <li>Enter the assembly code in the code box provided or copy the example code.</li>
+            <li>Click 'Generate Trace' to generate the execution trace for the program.</li>
+            <li>Select the number of history bits you wish to use.</li>
+            <li>Click on the 'Run Simulation' button to see the predictor's performance.</li>
+            <li>You can reset the simulation at any time by clicking the 'Reset' button.</li>
+        </ol>
+    </div>
+
+      <!-- Allowed Instructions -->
+      <div class="box">
+        <h2 class="subtitle">Allowed Instructions</h2>
+        <ul>
+          <li><code>ADD Rdest, Rsrc1, Rsrc2</code> — add two registers</li>
+          <li><code>SUB Rdest, Rsrc1, Rsrc2</code> — subtract two registers</li>
+          <li><code>AND Rdest, Rsrc1, Rsrc2</code> — bitwise AND two registers</li>
+          <li><code>MOV Rdest, constant</code> — load immediate into a register</li>
+          <li><code>BEQ R1, R2, label</code> — branch if equal</li>
+          <li><code>BNE R1, R2, label</code> — branch if not equal</li>
+        </ul>
+      </div>
+
+      <!-- Examples -->
+      <div class="columns is-multiline">
+        <div class="column is-one-third">
+          <div class="box">
+            <h4 class="has-text-info">Example 1: For Loop</h4>
+            <pre class="code-display"><code>MOV R0, 0
+MOV R1, 5
+MOV R2, 3
+MOV R3, 1
+LOOP:
+ADD R0, R0, R3
+BEQ R0, R1, END
+ADD R2, R2, R3
+BNE R1, R0, LOOP
+END:
+NOP</code></pre>
+            <p><strong>Trace:</strong> B0:N, B1:T, B0:N, B1:T, B0:N, B1:T, B0:N, B1:T, B0:T</p>
+            <button class="button is-primary is-small" onclick="loadExample(`MOV R0, 0
+MOV R1, 5
+MOV R2, 3
+MOV R3, 1
+LOOP:
+ADD R0, R0, R3
+BEQ R0, R1, END
+ADD R2, R2, R3
+BNE R1, R0, LOOP
+END:
+NOP`)">Copy</button>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="box">
+            <h4 class="has-text-info">Example 2: For Loop with if statement</h4>
+            <pre class="code-display"><code>MOV R0, 0
+MOV R1, 0
+MOV R2, 10
+MOV R3, 1
+LOOP:
+AND R4, R0, R3
+BNE R4, R3, CONT
+ADD R1, R1, R3
+CONT:
+ADD R0, R0, R3
+BNE R0, R2, LOOP
+END:
+NOP</code></pre>
+            <p><strong>Trace:</strong> B0:T, B1:T, B0:N, B1:T, B0:T, B1:T, B0:N, B1:T, B0:T, B1:T, B0:N, B1:T, B0:T, B1:T, B0:N, B1:T, B0:T, B1:T, B0:N, B1:N</p>
+            <button class="button is-primary is-small" onclick="loadExample(`MOV R0, 0
+MOV R1, 0
+MOV R2, 10
+MOV R3, 1
+LOOP:
+AND R4, R0, R3
+BNE R4, R3, CONT
+ADD R1, R1, R3
+CONT:
+ADD R0, R0, R3
+BNE R0, R2, LOOP
+END:
+NOP`)">Copy</button>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="box">
+            <h4 class="has-text-info">Example 3: Multiple Iterations</h4>
+            <pre class="code-display"><code>MOV R0, 0
+MOV R1, 5
+MOV R2, 3
+MOV R3, 1
+LOOP:
+ADD R0, R0, R3
+BEQ R0, R1, END
+ADD R2, R2, R3
+BNE R1, R0, LOOP
+END:
+NOP</code></pre>
+            <p><strong>Trace:</strong> B0:N, B1:T, B0:N, B1:T, B0:N, B1:T, B0:N, B1:T, B0:T</p>
+            <button class="button is-primary is-small" onclick="loadExample(`MOV R0, 0
+MOV R1, 5
+MOV R2, 3
+MOV R3, 1
+LOOP:
+ADD R0, R0, R3
+BEQ R0, R1, END
+ADD R2, R2, R3
+BNE R1, R0, LOOP
+END:
+NOP`)">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assembly Input & Highlighted Trace -->
+      <div class="box">
+        <h2 class="subtitle">Enter Assembly Program</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">Assembly Code:</label>
+              <div class="control">
+                <textarea id="programInput" class="textarea" placeholder="LOOP:&#10;ADD R1, R1, R2&#10;..." rows="8"></textarea>
+              </div>
+            </div>
+            <div class="buttons">
+              <button id="generateBtn" class="button is-primary">Generate Trace</button>
+              <button id="clearBtn" class="button is-info">Clear</button>
+            </div>
+          </div>
+          <div class="column">
+            <div id="coloredProgram" class="code-display" style="min-height: 100px;"></div>
+            <div id="coloredTrace" class="code-display" style="min-height: 50px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls: History length, Sequence, Run/Reset -->
+      <div class="box">
+        <h2 class="subtitle">Predictor Configuration</h2>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">History Bits:</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <div class="select">
+                  <select id="historyBits">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Branch Sequence:</label>
+          <div class="control">
+            <input id="sequenceInput" class="input" placeholder="e.g. B0:T,B1:N,B0:N,B1:T" />
+          </div>
+          <p class="help">Format: B{id}:{T|N} separated by commas (T=Taken, N=Not Taken)</p>
+        </div>
+        <div class="buttons">
+          <button id="runBtn" class="button is-primary">Run Simulation</button>
+          <button id="resetBtn" class="button is-info">Reset All</button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="box">
+        <h2 class="subtitle">Simulation Results</h2>
+        <div class="table-container">
+          <table id="resultsTable" class="table is-fullwidth is-striped"></table>
+        </div>
+        <div id="summary" class="notification is-success mt-4" style="display:none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="./js/main.js"></script>
 </body>
 </html>

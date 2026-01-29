@@ -1,39 +1,158 @@
 {
-  "version": 2.0,
-  "questions": [
-    {
-      "question": "This is a Sample Question 1?",
-      "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+    "version": 2.0,
+    "questions": [
+      {
+        "question": "What is the primary function of a branch instruction in a program?",
+        "answers": {
+          "a": "To perform arithmetic calculations.",
+          "b": "To change the flow of execution to a different part of the code.",
+          "c": "To load data from memory.",
+          "d": "To store data in a register."
+        },
+        "explanations": {
+          "a": "That is the role of instructions like ADD or SUB.",
+          "b": "Correct. Branches, or jumps, alter the program counter (PC) to control which instruction is executed next.",
+          "c": "That is the function of a load instruction (e.g., LW, LDR).",
+          "d": "That is the function of a move or store instruction (e.g., MOV, SW)."
+        },
+        "correctAnswer": "b",
+        "difficulty": "easy"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+      {
+        "question": "What does 'BNE' typically stand for in assembly language?",
+        "answers": {
+          "a": "Branch if Negative",
+          "b": "Branch if Not Equal",
+          "c": "Buffer Not Empty",
+          "d": "Branch if Equal"
+        },
+        "explanations": {
+          "a": "While some instruction sets have a 'branch if negative' (e.g., BMI), BNE is different.",
+          "b": "Correct. BNE is used to branch when two values are not the same.",
+          "c": "This is not related to processor instruction sets.",
+          "d": "This is the opposite; it's BEQ."
+        },
+        "correctAnswer": "b",
+        "difficulty": "easy"
       },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "This is a Sample Question 2?",
-      "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+      {
+        "question": "What is the main goal of branch prediction?",
+        "answers": {
+          "a": "To reduce the program's memory usage.",
+          "b": "To make the CPU run at a higher clock speed.",
+          "c": "To prevent the instruction pipeline from stalling.",
+          "d": "To simplify the instruction set."
+        },
+        "explanations": {
+          "a": "Branch prediction does not affect the program's size in memory.",
+          "b": "Clock speed is determined by the hardware design, not by prediction.",
+          "c": "Correct. By guessing the outcome of a branch, the CPU can fetch and start processing the likely next instructions without waiting.",
+          "d": "Branch prediction is an added complexity to the hardware, not a simplification."
+        },
+        "correctAnswer": "c",
+        "difficulty": "easy"
       },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+      {
+        "question": "A simple 1-bit branch predictor stores which of the following?",
+        "answers": {
+          "a": "The target address of the branch.",
+          "b": "The last outcome of the branch (Taken or Not Taken).",
+          "c": "A 2-bit saturating counter.",
+          "d": "The instruction opcode."
+        },
+        "explanations": {
+          "a": "The target address is stored in a Branch Target Buffer (BTB), not the predictor itself.",
+          "b": "Correct. It stores a single bit representing the last outcome, and it predicts the same outcome will happen again.",
+          "c": "This describes a 2-bit predictor, not a 1-bit predictor.",
+          "d": "The opcode is part of the instruction being decoded, not the prediction logic."
+        },
+        "correctAnswer": "b",
+        "difficulty": "medium"
       },
-      "correctAnswer": "c",
-      "difficulty": "beginner"
-    }
-  ]
+      {
+        "question": "What are the four states of a 2-bit saturating counter in a branch predictor?",
+        "answers": {
+          "a": "Taken, Not Taken, Maybe Taken, Maybe Not Taken",
+          "b": "Start, Wait, Execute, End",
+          "c": "0, 1, 2, 3",
+          "d": "Strongly Not Taken, Weakly Not Taken, Weakly Taken, Strongly Taken"
+        },
+        "explanations": {
+          "a": "These are descriptive but not the formal names of the states.",
+          "b": "These describe a process, not the states of a predictor.",
+          "c": "These are the numerical values, but not the names of the states.",
+          "d": "Correct. These four states correspond to the binary values 00, 01, 10, and 11."
+        },
+        "correctAnswer": "d",
+        "difficulty": "medium"
+      },
+      {
+        "question": "What is the main advantage of a 2-bit predictor over a 1-bit predictor?",
+        "answers": {
+          "a": "It is cheaper to implement in hardware.",
+          "b": "It is faster at making a prediction.",
+          "c": "It is more tolerant of a single different outcome in a sequence.",
+          "d": "It can predict the branch target address."
+        },
+        "explanations": {
+          "a": "It is slightly more expensive as it requires two bits of storage per entry instead of one.",
+          "b": "The prediction speed is virtually identical.",
+          "c": "Correct. For example, in a loop that exits once, a 1-bit predictor mispredicts twice, while a 2-bit predictor only mispredicts once.",
+          "d": "Neither a 1-bit nor a 2-bit predictor stores the target address."
+        },
+        "correctAnswer": "c",
+        "difficulty": "medium"
+      },
+      {
+        "question": "For a 2-bit predictor, how many consecutive mispredictions does it take to change a prediction from 'Taken' (from state 11) to 'Not Taken'?",
+        "answers": {
+          "a": "1",
+          "b": "2",
+          "c": "3",
+          "d": "4"
+        },
+        "explanations": {
+          "a": "One misprediction moves the state from 11 (Strongly Taken) to 10 (Weakly Taken). The prediction is still 'Taken'.",
+          "b": "Correct. Two mispredictions are needed to cross the prediction threshold: 11 -> 10 (still predicts Taken), then 10 -> 01 (now predicts Not Taken).",
+          "c": "Three mispredictions would move it all the way to state 00 (Strongly Not Taken).",
+          "d": "The state can be changed with fewer mispredictions."
+        },
+        "correctAnswer": "b",
+        "difficulty": "hard"
+      },
+      {
+        "question": "A simple branch predictor (like 1-bit or 2-bit) will perform poorly on which branch outcome pattern?",
+        "answers": {
+          "a": "T, T, T, T, T, N",
+          "b": "N, N, N, N, N, N",
+          "c": "T, N, T, N, T, N",
+          "d": "T, T, T, T, T, T"
+        },
+        "explanations": {
+          "a": "This is a typical loop pattern that simple predictors handle very well (only one misprediction at the end).",
+          "b": "This pattern is perfectly predictable.",
+          "c": "Correct. Simple predictors only use the last outcome(s) for a single branch and cannot detect a larger pattern. This sequence will cause a 100% misprediction rate after the first branch.",
+          "d": "This pattern is perfectly predictable."
+        },
+        "correctAnswer": "c",
+        "difficulty": "hard"
+      },
+      {
+        "question": "A 'pipeline flush' or 'stall' due to a branch misprediction means what?",
+        "answers": {
+          "a": "The CPU must clear the pipeline of incorrectly fetched instructions and restart from the correct branch path.",
+          "b": "The CPU has run out of memory and must write pipeline contents to disk.",
+          "c": "The CPU's cooling system is flushing the pipeline with coolant.",
+          "d": "The pipeline is full and is operating at maximum efficiency."
+        },
+        "explanations": {
+          "a": "Correct. This is the penalty for a misprediction, as all the work done on the wrong-path instructions is wasted.",
+          "b": "This describes virtual memory swapping, not a pipeline flush.",
+          "c": "This is not related to the logical operation of a CPU pipeline.",
+          "d": "This is the opposite of a stall; a stall represents a loss of efficiency."
+        },
+        "correctAnswer": "a",
+        "difficulty": "hard"
+      }
+    ]
 }
