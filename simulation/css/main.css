@@ -1,0 +1,301 @@
+/* Correlating Branch Prediction Experiment Styles */
+/* Mobile-first responsive design with Bulma framework integration */
+
+/* Custom color scheme */
+:root {
+  --primary-color: #3273dc;
+  --secondary-color: #48c774;
+  --warning-color: #ffdd57;
+  --danger-color: #f14668;
+  --dark-color: #363636;
+  --light-color: #f5f5f5;
+}
+
+/* Mobile-first responsive design */
+.container {
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .columns {
+    flex-direction: column !important;
+  }
+  
+  .column {
+    padding: 0.5rem !important;
+  }
+  
+  .buttons {
+    flex-wrap: wrap;
+  }
+  
+  .button {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Code display styling */
+.code-display {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 40px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Branch highlighting */
+.branch-highlight {
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: white !important;
+  margin: 0 2px;
+}
+
+/* Textarea auto-resize */
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Table styling */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.table {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.8rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+/* Results table specific styling */
+#resultsTable th {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+#resultsTable td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.5rem;
+  border: 1px solid #dbdbdb;
+}
+
+/* Responsive form fields */
+.field.is-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.field.is-horizontal .field-label {
+  margin-right: 1.25rem;
+}
+
+.select select {
+  padding: 0.5em 1.5em 0.5em 0.75em;
+  min-width: 60px;
+  height: auto;
+  line-height: normal;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .field.is-horizontal {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .field-label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .field-body {
+    width: 100%;
+  }
+}
+
+/* Button groups */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.buttons .button {
+  flex: 1;
+  min-width: 120px;
+}
+
+@media (max-width: 768px) {
+  .buttons .button {
+    min-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Box styling for sections */
+.box {
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .box {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Example boxes */
+.column .box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.column .box .code-display {
+  flex-grow: 1;
+  margin-bottom: 0.5rem;
+}
+
+/* Input and select styling */
+.input,
+.textarea,
+.select select {
+  border-radius: 4px;
+  border: 1px solid #dbdbdb;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+/* Help text */
+.help {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+/* Summary notification */
+#summary {
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+/* Title and subtitle styling */
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+/* Loading states */
+.button.is-loading {
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.button.is-loading::after {
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid #dbdbdb;
+  border-radius: 290486px;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  position: relative;
+  width: 1em;
+  position: absolute;
+  left: calc(50% - (1em / 2));
+  top: calc(50% - (1em / 2));
+}
+
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/* Accessibility improvements */
+.button:focus,
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .buttons,
+  .field {
+    display: none !important;
+  }
+  
+  .box {
+    break-inside: avoid;
+  }
+  
+  .table {
+    font-size: 0.8rem;
+  }
+}
